@@ -14,14 +14,10 @@ la cual esta diseñada para ...
 Sistema para ...
 
 
-## 3. Tipos de conexión.
+## 3. Tipos de conexión y documentación.
 
 -  La aplicacion realiza las peticiones (REST API) en el puerto **2000**.
-- Las rutas para metodos "GET" en el servidor virtual son:
-  - Ruta "/rg/resources/ids".
-      - Retorna en formato de JSON las ids de los usuarios.
-
-- Las rutas para metodos "POST" en el servidor virtual son:
+- La documentacion de la API esta disponible en el siguiente enlace: [Documentación](https://app.getpostman.com/join-team?invite_code=68135f5b5fe093fd942d0fa25068f3a0&ws=1bf5d7de-0f14-4472-aea7-660b21b06a5a) 
 
 
 

@@ -23,7 +23,7 @@ module.exports = {
                     res.json({message: 'Correo no registrado'})
                 }else{
                     const token = jwt.sign({ sub: user.usr_id }, config.secret);
-                    res.json({token})
+                    res.json({user, token})
                 }
             }, (err) => {
                 console.dir(err);
