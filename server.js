@@ -19,6 +19,7 @@ const version = '/v1';
 
 // api routes
 app.use(version+'/users', require('./src/routes/usersRouter'));
+app.use(version+'/no_portafolio/', require('./src/routes/occupationRouter'));
 
 // global error handler
 app.use(errorHandler);
