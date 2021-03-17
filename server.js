@@ -19,7 +19,8 @@ const version = '/v1';
 
 // api routes
 app.use(version+'/users', require('./src/routes/usersRouter'));
-
+app.use(version+'/activities', require('./src/routes/activitiesRouter'));
+app.use(version+'/clockify', require('./src/routes/clockifyRouter'));
 // global error handler
 app.use(errorHandler);
 

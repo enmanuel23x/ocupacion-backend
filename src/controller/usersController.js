@@ -1,13 +1,12 @@
 const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const models = require('../models');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
+const { check } = require('../utils/utils')
 
 module.exports = {
-    authenticate: (req, res, next) => {
+    authenticate: (req, res) => {
         const { email } = req.body
-        if(email){
+        if(check([email])){
             models.users.findAll({
                 include:
                     [{
@@ -28,7 +27,6 @@ module.exports = {
             }, (err) => {
                 console.dir(err);
                 res.status(429).json("Error interno del servidor");
-                next(err);
             });
         }else{
             res.status(429).json("Parametros no suministrados");
@@ -37,9 +35,9 @@ module.exports = {
     
         
     },
-    getUser: (req, res, next) => {
+    getUser: (req, res) => {
         const email = req.params.id
-        if(email){
+        if(check([email])){
             models.users.findAll({
                 include:
                     [{
@@ -54,7 +52,6 @@ module.exports = {
             }, (err) => {
                 console.dir(err);
                 res.status(429).json("Error interno del servidor");
-                next(err);
             });
         }else{
             res.status(429).json("Parametros no suministrados");
