@@ -145,6 +145,10 @@ DB_IDLE = 30000
 
 # Config API
 NODE_ENV = development
+
+# API Clockify
+WORKSPACE_ID = 5c79aee1b079877a63415e08
+API_KEY = Xvy1392jqzm2LxBF
 ```
 **Importante: Solo alterar estos valores de ser necesario**
   - **BD ( MySQL - facturacion)** en donde: 
@@ -161,6 +165,9 @@ NODE_ENV = development
   
   - **API REST** en donde: 
     - `NODE_ENV` indica el tipo de ejecucion del servicio (production o development, respectivamete en los puertos 80 y 2000) **(default: development)**.
+  - **API Clockify** en donde: 
+    - `WORKSPACE_ID` corresponde al ID del espacio de trabajo de clockify.
+    - `API_KEY` token de acceso para la API de clockify.
 
 ### 5.3. Ejecución.
 
