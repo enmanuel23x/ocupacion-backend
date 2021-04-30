@@ -1,0 +1,13 @@
+process.env.DB_HOSTNAME = "localhost";
+process.env.DB_PORT = 3306;
+process.env.DB_USERNAME = "root";
+process.env.DB_PASSWORD = "";
+process.env.DB_NAME = "occupation_indicators";
+process.env.DB_ACQUIRETIMEOUT = 30000;
+process.env.DB_DIALECT = "mysql";
+process.env.DB_CONNECTIONLIMITMAX = 10;
+process.env.DB_CONNECTIONLIMITMIN = 1;
+process.env.DB_IDLE = 30000;
+process.env.NODE_ENV = "development";
+process.env.WORKSPACE_ID = "5c79aee1b079877a63415e08";
+process.env.API_KEY = "Xvy1392jqzm2LxBF";

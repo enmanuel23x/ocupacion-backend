@@ -48,8 +48,12 @@ module.exports = {
                 }
             })
         .catch(error => {
-            console.dir(error.response)
-            return "ERROR"
+            if(error.response.data.message.includes("not found")){
+                return []
+            }else{
+                console.dir(error.response)
+                return "ERROR"
+            }
         });
     }
 }

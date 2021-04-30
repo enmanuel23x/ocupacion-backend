@@ -7,7 +7,7 @@ module.exports = {
         if(response != "ERROR"){
             res.status(200).json(response);
         }else{
-            res.status(429).json("Error interno del servidor");
+            res.status(500).json("Error interno del servidor");
         }
     },
     getProjects: async (req, res) => {
@@ -17,10 +17,10 @@ module.exports = {
             if(response != "ERROR"){
                 res.status(200).json(response);
             }else{
-                res.status(429).json("Error interno del servidor");
+                res.status(500).json("Error interno del servidor");
             }
         }else{
-            res.status(429).json("Parametros no suministrados");
+            res.status(500).json("Parametros no suministrados");
         }
     },
     getTasks: async (req, res) => {
@@ -30,10 +30,10 @@ module.exports = {
             if(response != "ERROR"){
                 res.status(200).json(response);
             }else{
-                res.status(429).json("Error interno del servidor");
+                res.status(500).json("Error interno del servidor");
             }
         }else{
-            res.status(429).json("Parametros no suministrados");
+            res.status(500).json("Parametros no suministrados");
         }
     },
 };
