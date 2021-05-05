@@ -37,5 +37,7 @@ typings
 # Optional REPL history
 .node_repl_history
 
+
 # misc
 .env
+.idea/
