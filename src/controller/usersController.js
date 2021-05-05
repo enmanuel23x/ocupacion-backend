@@ -1,13 +1,20 @@
-const config = require('config.json');
+const config = require('../../config.json');
 const jwt = require('jsonwebtoken');
 const models = require('../models');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
+const { check, isNumeric } = require('../utils/utils')
+
+const getUsrId = (token) => {
+    let decode = jwt.decode(token);
+    if(decode.sub){
+        return decode.sub
+    }
+    return undefined;
+}
 
 module.exports = {
-    authenticate: (req, res, next) => {
+    authenticate: (req, res) => {
         const { email } = req.body
-        if(email){
+        if(check([email])){
             models.users.findAll({
                 include:
                     [{
@@ -20,26 +27,60 @@ module.exports = {
             }).then((users) => {
                 let user = users.length > 0 ? users[0] : undefined
                 if (!user){
-                    res.json({message: 'Correo no registrado'})
+                    res.status(500).json({message: 'Correo no registrado'})
                 }else{
                     const token = jwt.sign({ sub: user.usr_id }, config.secret);
                     res.json({user, token})
                 }
             }, (err) => {
                 console.dir(err);
-                res.status(429).json("Error interno del servidor");
-                next(err);
+                res.status(500).json("Error interno del servidor");
             });
         }else{
-            res.status(429).json("Parametros no suministrados");
+            res.status(500).json("Parametros no suministrados");
         }
         
     
         
     },
-    getUser: (req, res, next) => {
+    refresh: (req, res) => {
+        const { token } = req.body
+        let usr_id = undefined;
+        if(check([token])){
+            usr_id = getUsrId(token)
+        } 
+        if(check([usr_id]) && isNumeric(usr_id)){
+            models.users.findAll({
+                where: {
+                    usr_id: usr_id
+                },
+                include:
+                    [{
+                        model: models.collaborators,
+                        as: 'collaborators',
+                    }],
+            }).then((users) => {
+                let user = users.length > 0 ? users[0] : undefined
+                if (!user){
+                    res.status(401).json({ message: 'Invalid Token' });
+                }else{
+                    const token = jwt.sign({ sub: user.usr_id }, config.secret);
+                    res.json({user, token})
+                }
+            }, (err) => {
+                console.dir(err);
+                res.status(500).json("Error interno del servidor");
+            });
+        }else{
+            res.status(401).json({ message: 'Invalid Token' });
+        }
+        
+    
+        
+    },
+    getUser: (req, res) => {
         const email = req.params.id
-        if(email){
+        if(check([email])){
             models.users.findAll({
                 include:
                     [{
@@ -53,11 +94,10 @@ module.exports = {
                 res.status(200).json(users.length == 0 ? {} : users[0]);
             }, (err) => {
                 console.dir(err);
-                res.status(429).json("Error interno del servidor");
-                next(err);
+                res.status(500).json("Error interno del servidor");
             });
         }else{
-            res.status(429).json("Parametros no suministrados");
+            res.status(500).json("Parametros no suministrados");
         }
     },
 };
