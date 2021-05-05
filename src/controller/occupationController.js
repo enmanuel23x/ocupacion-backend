@@ -1,4 +1,4 @@
-const config = require('config.json');
+const config = require('../../config.json');
 const jwt = require('jsonwebtoken');
 const models = require('../models');
 const Sequelize = require('sequelize');
