@@ -17,7 +17,7 @@ module.exports = {
             res.status(200).json(occupations.length == 0 ? {} : occupations);
         }, (err) => {
             console.dir(err);
-            res.status(429).json("Error interno del servidor");
+            res.status(400).json("Error interno del servidor");
             next(err);
         });
     },
@@ -38,7 +38,7 @@ module.exports = {
         }).then((occupations) => {
             res.status(200).json(occupations.length == 0 ? {} : occupations);
         }, (err) => {
-            console.dir(err);
+            // console.dir(err);
             res.status(429).json("Error interno del servidor");
             next(err);
         });
@@ -63,7 +63,11 @@ module.exports = {
                     }
                 ]
             }).then((occupations) => {
-                res.status(200).json(occupations.length == 0 ? {} : occupations);
+                if (occupations.length === 0){
+                    res.status(404).json({"Error": "Parametro erroneo o inexistente"});
+                } else {
+                    res.status(200).json(occupations);
+                }
             }, (err) => {
                 console.dir(err);
                 res.status(429).json("Error interno del servidor");
@@ -87,7 +91,11 @@ module.exports = {
                 occ_id: id
             }
         }).then((occupations) => {
-            res.status(200).json(occupations.length == 0 ? {} : occupations);
+           if (occupations[0] === 1) {
+               res.status(200).json({"result": "Modificado"})
+           } else if (occupations[0] === 0){
+               res.status(406).json({"result": "Not Found or Not Changed"})
+           }
         }, (err) => {
             console.dir(err);
             res.status(429).json("Error interno del servidor");
@@ -102,7 +110,11 @@ module.exports = {
                     occ_id: id
                 }
             }).then((occupations) => {
-                res.status(200).json(occupations.length == 0 ? {} : occupations);
+                if (occupations === 1){
+                    res.status(200).json({"result": "Deleted"})
+                } else {
+                    res.status(404).json({"result": "Not Found"})
+                }
             }, (err) => {
                 console.dir(err);
                 res.status(429).json("Error interno del servidor");
