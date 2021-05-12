@@ -130,9 +130,28 @@ describe("Test the occupation routes:", () => {
 
 
 
-
-
-
-
+    //
+    
+    
+    test("GET all collaborators - whitout parameters", done => {
+        request(app)
+            .get(`/v1/no_portafolio/ocollabs`)
+            .set('Authorization', 'Bearer ' + token)
+            .then(response => {
+                expect(response.statusCode).toBe(200);
+                expect(response.headers['content-type']).toBe('application/json; charset=utf-8');
+                done();
+            });
+    });
+    
+    test("GET all activities - whitout parameters", done => {
+        request(app)
+            .get(`/v1/no_portafolio/oactivities`)
+            .set('Authorization', 'Bearer ' + token)
+            .then(response => {
+                expect(response.statusCode).toBe(200);
+                expect(response.headers['content-type']).toBe('application/json; charset=utf-8');
+                done();
+            });
+    });
 });
-//
