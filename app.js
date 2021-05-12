@@ -4,8 +4,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const jwt = require('_helpers/jwt');
-const errorHandler = require('_helpers/error-handler');
+const jwt = require('./_helpers/jwt');
+const errorHandler = require('./_helpers/error-handler');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -20,11 +20,13 @@ const version = '/v1';
 // api routes
 app.use(version+'/users', require('./src/routes/usersRouter'));
 
+app.use(version+'/activities', require('./src/routes/activitiesRouter'));
+app.use(version+'/filters', require('./src/routes/filtersRouter'));
+
+app.use(version+'/no_portafolio/', require('./src/routes/occupationRouter'));
+
+
 // global error handler
 app.use(errorHandler);
 
-// start server
-const port = process.env.NODE_ENV === 'production' ? 80 : 2000;
-const server = app.listen(port, function () {
-    console.log(`Backend corriendo en localhost:${port}`);
-});
+module.exports = app
