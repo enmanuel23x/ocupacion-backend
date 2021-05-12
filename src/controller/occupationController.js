@@ -123,5 +123,30 @@ module.exports = {
         }else{
             res.status(429).json("Parametros no suministrados");
         }
+    },
+
+    readAllActivities: (req, res, next) => {
+        models.activities.findAll({
+            attributes: ['act_id', 'act_title']
+        }).then((occupations) => {
+            res.status(200).json(occupations.length == 0 ? {} : occupations);
+        }, (err) => {
+            // console.dir(err);
+            res.status(429).json("Error interno del servidor");
+            next(err);
+        });
+    },
+
+
+    readAllCollabs: (req, res, next) => {
+        models.collaborators.findAll({
+            attributes: ['col_id_file', 'col_name', 'col_last_name']
+        }).then((occupations) => {
+            res.status(200).json(occupations.length == 0 ? {} : occupations);
+        }, (err) => {
+            // console.dir(err);
+            res.status(429).json("Error interno del servidor");
+            next(err);
+        });
     }
 };

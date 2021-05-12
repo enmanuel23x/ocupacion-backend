@@ -26,5 +26,15 @@ usersRouter.route('/occupation/:id')
     .delete(occupationController.delete);
 
 
+//
+usersRouter.route('/oactivities')
+    .get(occupationController.readAllActivities);
+
+    
+//
+usersRouter.route('/ocollabs')
+    .get(occupationController.readAllCollabs);
+
+
 
 module.exports = usersRouter;
