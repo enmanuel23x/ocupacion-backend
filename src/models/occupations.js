@@ -28,6 +28,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    occ_real: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     occ_start_date: {
       type: DataTypes.DATEONLY,
       allowNull: true

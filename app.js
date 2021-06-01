@@ -24,6 +24,7 @@ app.use(version+'/activities', require('./src/routes/activitiesRouter'));
 app.use(version+'/filters', require('./src/routes/filtersRouter'));
 
 app.use(version+'/no_portafolio/', require('./src/routes/occupationRouter'));
+app.use(version+'/reports/', require('./src/routes/reportRouter'));
 
 
 // global error handler
