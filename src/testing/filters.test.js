@@ -89,4 +89,24 @@ describe("Test the filters routes:", () => {
         done();
       });
   });
+  test("GET Activities for filters(SECURED)", done => {
+    request(app)
+      .get("/v1/filters/activities")
+      .set('Authorization', 'Bearer ' + token)
+      .then(response => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBeGreaterThanOrEqual(0)
+        done();
+      });
+  });
+  test("GET Collaborators for filters(SECURED)", done => {
+    request(app)
+      .get("/v1/filters/collaborators")
+      .set('Authorization', 'Bearer ' + token)
+      .then(response => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBeGreaterThanOrEqual(0)
+        done();
+      });
+  });
 });
