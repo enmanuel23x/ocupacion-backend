@@ -12,7 +12,8 @@ module.exports = {
             act_id: act_id,
             occ_percentage: percentage,
             occ_start_date: start,
-            occ_end_date: end
+            occ_end_date: end,
+            occ_real: 0
         }).then((occupations) => {
             res.status(200).json(occupations.length == 0 ? {} : occupations);
         }, (err) => {

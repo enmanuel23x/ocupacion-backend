@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
         key: 'occ_id'
       }
     },
-    sum_moth: {
+    sum_month: {
       type: DataTypes.INTEGER,
       allowNull: true
     },

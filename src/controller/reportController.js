@@ -2,7 +2,7 @@ const models = require('../models');
 const { check, isNumeric } = require('../utils/utils')
 const Op = require('sequelize').Op;
 
-let fetchData = async (where, where2, offset, limit) =>{
+const fetchData = async (where, where2, where3, offset, limit) =>{
     return await new Promise((resolve, reject) => {
         models.occupations.findAndCountAll({
             limit: parseInt(limit),
@@ -29,12 +29,13 @@ let fetchData = async (where, where2, offset, limit) =>{
                     as: 'collaborators'
                 },{
                     model: models.summary_time_card,
-                    as: 'summary_time_card'
+                    as: 'summary_time_card',
+                    where: where3
                 }],
         }).then((activities) => {
             resolve({status: 200, data: activities})
         }, (err) => {
-            //console.dir(err);
+            console.dir(err);
             resolve({status:500, msg: "Error interno del servidor", err: true})
         });
       });
@@ -51,7 +52,7 @@ module.exports = {
         if(check([page, limit])){
             if(isNumeric(page) && isNumeric(limit)){
                 const offset = ( page ? page : 0) * parseInt(limit);
-                let where = {}, where2 = {}
+                let where = {}, where2 = {}, where3 = {};
                 if( check([collaborator]) && isNumeric(collaborator)){
                     where.col_id_file = collaborator;
                 }
@@ -66,15 +67,49 @@ module.exports = {
                         ...where,
                         [Op.or]: [
                           {
-                            occ_start_date: {[Op.between]: [minDate, maxDate]}
+                            [Op.or]: [
+                                {
+                                  [Op.and]: [
+                                      {
+                                          occ_start_date: {[Op.gte]: minDate}
+                                      },
+                                      {
+                                          occ_start_date: {[Op.lte]: maxDate}
+                                      }
+                                    ]
+                                },
+                                {
+                                  [Op.and]: [
+                                      {
+                                          occ_end_date: {[Op.gte]: minDate}
+                                      },
+                                      {
+                                          occ_end_date: {[Op.lte]: maxDate}
+                                      }
+                                    ]
+                                }
+                              ]
                           },
                           {
-                            occ_end_date: {[Op.between]: [minDate, maxDate]}
+                            [Op.and]: [
+                                {
+                                    occ_start_date: {[Op.lte]: minDate}
+                                },
+                                {
+                                    occ_end_date: {[Op.gte]: maxDate}
+                                }
+                              ]
                           }
                         ]
-                      }
+                    }
+                    where3 = {
+                        sum_month: {[Op.between]: [
+                                (new Date(minDate+'T00:00:00.000')).getMonth()+1, 
+                                (new Date(maxDate+'T00:00:00.000')).getMonth()+1
+                            ]}
+                    }
                 }
-                const dataSrc = await fetchData(where, where2, offset, limit)
+                const dataSrc = await fetchData(where, where2, where3, offset, limit)
                 let copy = [], dup = false;
                 if(dataSrc.err){
                     res.status(dataSrc.status).json(dataSrc.msg)
@@ -117,7 +152,7 @@ module.exports = {
         if(check([page, limit])){
             if(isNumeric(page) && isNumeric(limit)){
                 const offset = ( page ? page : 0) * parseInt(limit);
-                let where = {}, where2 = {}
+                let where = {}, where2 = {}, where3 = {};
                 if( check([collaborator]) && isNumeric(collaborator)){
                     where.col_id_file = collaborator;
                 }
@@ -132,15 +167,49 @@ module.exports = {
                         ...where,
                         [Op.or]: [
                           {
-                            occ_start_date: {[Op.between]: [minDate, maxDate]}
+                            [Op.or]: [
+                                {
+                                  [Op.and]: [
+                                      {
+                                          occ_start_date: {[Op.gte]: minDate}
+                                      },
+                                      {
+                                          occ_start_date: {[Op.lte]: maxDate}
+                                      }
+                                    ]
+                                },
+                                {
+                                  [Op.and]: [
+                                      {
+                                          occ_end_date: {[Op.gte]: minDate}
+                                      },
+                                      {
+                                          occ_end_date: {[Op.lte]: maxDate}
+                                      }
+                                    ]
+                                }
+                              ]
                           },
                           {
-                            occ_end_date: {[Op.between]: [minDate, maxDate]}
+                            [Op.and]: [
+                                {
+                                    occ_start_date: {[Op.lte]: minDate}
+                                },
+                                {
+                                    occ_end_date: {[Op.gte]: maxDate}
+                                }
+                              ]
                           }
                         ]
-                      }
+                    }
+                    where3 = {
+                        sum_month: {[Op.between]: [
+                                (new Date(minDate+'T00:00:00.000')).getMonth()+1, 
+                                (new Date(maxDate+'T00:00:00.000')).getMonth()+1
+                            ]}
+                    }
                 }
-                const dataSrc = await fetchData(where, where2, offset, limit)
+                const dataSrc = await fetchData(where, where2, where3, offset, limit)
                 if(dataSrc.err){
                     res.status(dataSrc.status).json(dataSrc.msg)
                 }else{
