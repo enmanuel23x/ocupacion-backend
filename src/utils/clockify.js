@@ -1,4 +1,5 @@
 const axios = require('axios').default;
+const { sleep } = require('./utils')
 const workspaceId = process.env.WORKSPACE_ID
 //Base clockify api axios instance
 const ClockifyAxios = axios.create({
@@ -38,6 +39,7 @@ module.exports = {
                 ids: [task]
             }
         }
+        await sleep(1000);
         return await ClockifyAxios_reports.post(`/reports/summary`, data)
             .then( response => { 
                 const result = response.data;
@@ -54,7 +56,8 @@ module.exports = {
         });
     },
     getClients:  async () =>{//Devuelve todos los clientes
-        return ClockifyAxios.get(`/workspaces/${workspaceId}/clients`)
+        await sleep(1000);
+        return await ClockifyAxios.get(`/workspaces/${workspaceId}/clients`)
             .then( data => { 
                 const result = data.data;
                 if(result){
@@ -69,7 +72,8 @@ module.exports = {
         });
     },
     getProjectByClients: async (clientID) =>{//recibe clientID y devuelve los projects activos correspondientes
-        return ClockifyAxios.get(`/workspaces/${workspaceId}/projects?page-size=10000&archived=false&clients=`+clientID)
+        await sleep(1000);
+        return await ClockifyAxios.get(`/workspaces/${workspaceId}/projects?page-size=10000&archived=false&clients=`+clientID)
             .then( data => { 
                 const result = data.data;
                 if(result){
@@ -84,7 +88,8 @@ module.exports = {
         });
     },
     getTasks: async (projectID) =>{//Recibe projectID y devuelve los task activos correspondientes
-        return ClockifyAxios.get(`/workspaces/${workspaceId}/projects/${projectID}/tasks?is-active=true&page-size=10000`)
+        await sleep(1000);
+        return await ClockifyAxios.get(`/workspaces/${workspaceId}/projects/${projectID}/tasks?is-active=true&page-size=10000`)
             .then( data => { 
                 const result = data.data;
                 if(result){
@@ -103,7 +108,8 @@ module.exports = {
         });
     },
     getUserId: async (email) =>{//Recibe projectID y devuelve los task activos correspondientes
-        return ClockifyAxios.get(`/workspaces/${workspaceId}/users?email=${email}`)
+        await sleep(1000);
+        return await ClockifyAxios.get(`/workspaces/${workspaceId}/users?email=${email}`)
             .then( data => { 
                 const result = data.data;
                 if(result){

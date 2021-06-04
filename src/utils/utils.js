@@ -1,4 +1,7 @@
 module.exports = {
+    sleep: (time) => {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    },
     check: (array) =>{
         let response = true
         if(array.length > 0){

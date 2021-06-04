@@ -3,11 +3,19 @@ require('rootpath')();
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const CronJob = require('cron').CronJob;
 const bodyParser = require('body-parser');
 const jwt = require('./_helpers/jwt');
 const errorHandler = require('./_helpers/error-handler');
-const updater = require('./src/utils/updater').updater;
-//updater()
+const runSync = require('./src/utils/updater').runSync;
+
+
+const job = new CronJob('00 00 01 * * 3', async function() {
+    const result = await runSync();
+    console.log(result)
+});
+job.start()
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
